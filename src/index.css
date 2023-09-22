@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 body, html {
     padding: 0;
     margin: 0;
@@ -80,19 +81,63 @@ div.block div.title {
     border: none !important;
     outline: none !important;
 }
+
+.menu {
+  grid-column: span 3;
+  display: grid;
+  grid-template-columns: 20% 30% 1fr 200px 70px;
+  gap: 10px;
+}
+
+.menu > h1 {
+    margin: 0;
+    font-family: 'Fira Code', 'Inconsolata', 'Consolas', 'Courier New', Courier, monospace;
+    height: 100%;
+}
+
+.menu > button {
+    font-family: 'Fira Code', 'Inconsolata', 'Consolas', 'Courier New', Courier, monospace;
+    font-size: 16px;
+    border: 1px solid #999999;
+    outline: none;
+    border-radius: 5px;
+    transition: background-color 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.menu > label {
+    font-family: 'Fira Code', 'Inconsolata', 'Consolas', 'Courier New', Courier, monospace;
+    align-self: center;
+    text-align: right;
+}
+
+.menu > input, .menu > select {
+    font-family: 'Fira Code', 'Inconsolata', 'Consolas', 'Courier New', Courier, monospace;
+    padding: 5px;
+    box-sizing: border-box;
+    background-color: #dddddd;
+    border: 1px solid #999999;
+    margin-top: 0;
+    font-size: inherit;
+    outline: none;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+input[type=password] {
+    letter-spacing: 4px;
+}
+
 main {
     display: grid;
     background-color: white;
-    -webkit-app-region: drag;
     grid-template-columns: 50% 1px 1fr;
+    grid-template-rows: min-content min-content 1fr;
     grid-gap: 10px;
     padding: 10px;
     width: 100%;
     height: 100%;
     box-sizing: border-box;
-    border-radius: 10px;
-    border: 1px solid #bbbbbb;
-    box-shadow: 0 0 20px 3px rgba(0, 0, 0, 0.2);
 }
 
 .program-input {
@@ -199,6 +244,7 @@ div.hsep {
     background-color: #cccccc;
     height: 1px;
     flex-grow: 1;
+    grid-column: 1/-1;
 }
 
 div.h1, div.h2, div.h3, div.h4, div.h5, div.h6 {
@@ -208,9 +254,9 @@ div.h1, div.h2, div.h3, div.h4, div.h5, div.h6 {
     padding-top: 10px;
     text-align: center;
 }
-div.h1 { font-size: 4vw; }
-div.h2 { font-size: 3.5vw; }
-div.h3 { font-size: 3vw; }
-div.h4 { font-size: 2.5vw; }
-div.h5 { font-size: 2vw; }
-div.h6 { font-size: 1.5vw; }
+div.h1 { font-size: 3vw; }
+div.h2 { font-size: 2.5vw; }
+div.h3 { font-size: 2vw; }
+div.h4 { font-size: 1.5vw; }
+div.h5 { font-size: 1vw; }
+div.h6 { font-size: 0.5vw; }

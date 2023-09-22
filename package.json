@@ -20,6 +20,8 @@
     "@uiw/codemirror-themes": "^4.21.15",
     "@uiw/react-codemirror": "^4.21.15",
     "codemirror": "^6.0.1",
+    "firebase": "^10.4.0",
+    "firebaseui": "^6.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",

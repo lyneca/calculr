@@ -2,9 +2,55 @@ import * as React from 'react';
 import { createTheme } from '@uiw/codemirror-themes'
 import CodeMirror from '@uiw/react-codemirror'
 import { EditorView } from '@codemirror/view';
-import { StreamLanguage, StreamParser, StringStream } from '@codemirror/language';
+import { StreamLanguage, StringStream } from '@codemirror/language';
 import { tags as t } from '@lezer/highlight';
 import { CalcularLang } from './language';
+import { initializeApp } from "firebase/app";
+import { EmailAuthProvider, createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { addDoc, collection, getDocs, getFirestore, query, where } from 'firebase/firestore';
+import { auth as uiAuth } from 'firebaseui';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAFjAMwv60FVyKkRfI2nuYZ3f2NNmnPm4w",
+  authDomain: "calculr-80971.firebaseapp.com",
+  projectId: "calculr-80971",
+  storageBucket: "calculr-80971.appspot.com",
+  messagingSenderId: "234443508110",
+  appId: "1:234443508110:web:d462ac34b1f4c0934bfcdf"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+const ui = new uiAuth.AuthUI(auth);
+
+const uiConfig = {
+  callbacks: {
+    signInSuccessWithAuthResult: function(authResult: any, redirectUrl: any) {
+      // User successfully signed in.
+      // Return type determines whether we continue the redirect automatically
+      // or whether we leave that to developer to handle.
+      return true;
+    },
+    uiShown: function() {
+      // The widget is rendered.
+      // Hide the loader.
+      let loader = document.getElementById('loader')
+      if (loader) loader.style.display = 'none';
+    }
+  },
+  // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
+  signInFlow: 'popup',
+  signInSuccessUrl: '<url-to-redirect-to-on-success>',
+  signInOptions: [
+    EmailAuthProvider.PROVIDER_ID,
+  ],
+  // Terms of service url.
+  tosUrl: '<your-tos-url>',
+  // Privacy policy url.
+  privacyPolicyUrl: '<your-privacy-policy-url>'
+};
 
 enum InputType {
     DEFAULT,
@@ -15,6 +61,96 @@ enum InputType {
 enum Visibility {
     DEFAULT,
     HIDDEN
+}
+
+enum LoginState {
+  DEFAULT,
+  LOGGED_IN,
+  ERROR
+}
+type MenuProps = { loadProgram: Function, save: Function }
+type Calculator = { title: string, program: string }
+type MenuState = { calculators: { [id: string]: Calculator }, name: string }
+class Menu extends React.Component<MenuProps, MenuState> {
+  constructor(props: MenuProps) {
+    super(props);
+    this.state = { calculators: {}, name: "" };
+    this.loadCalculator = this.loadCalculator.bind(this);
+    this.save = this.save.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  componentDidMount(): void {
+    this.refreshCalculators();
+  }
+
+  refreshCalculators() {
+    let calculators = collection(db, "calculators");
+    getDocs(calculators).then((snapshot) => {
+      this.setState({
+        calculators: Object.fromEntries(
+          snapshot.docs.map((doc) => {
+            let { title, program } = doc.data();
+            return [doc.id, { title, program }];
+          })
+        ),
+      });
+    });
+  }
+
+  createUser(email: string, name: string, password: string) {
+    const auth = getAuth();
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        return updateProfile(user, { displayName: name });
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // ..
+      });
+  }
+
+  signIn(email: string, password: string) {
+    const auth = getAuth();
+    signInWithEmailAndPassword(auth, email, password).then((user) => {});
+  }
+
+  loadCalculator(event: any) {
+    this.props.loadProgram(this.state.calculators[event.target.value]);
+  }
+
+  save() {
+    this.props.save(this.state.name);
+    this.refreshCalculators();
+  }
+
+  handleChange(event: any) {
+    let name = event.target.value;
+    this.setState({ name });
+  }
+
+  render() {
+    return (
+      <div className="menu">
+        <h1>Calculr</h1>
+        <select id="calculators" onChange={this.loadCalculator}>
+          <option value="">Select calculator to load...</option>
+          {Object.entries(this.state.calculators).map(([id, calculator]) => (
+            <option key={id} value={id}>
+              {calculator.title}
+            </option>
+          ))}
+        </select>
+        <label htmlFor="name">a calculator for</label>
+        <input id="name" name="name" onChange={this.handleChange} value={this.state.name}>
+        </input>
+        <button onClick={this.save}>save</button>
+      </div>
+    );
+  }
 }
 
 type ValueBlockProps = { title: string, value: number, type: InputType, visibility: Visibility, success: boolean };
@@ -235,7 +371,10 @@ type State = { program: string; blocks: any[]; overrides: any; layout: any[] };
 class App extends React.Component<any, State> {
   constructor(props: any) {
     super(props);
-    this.state = { program: example, blocks: [], overrides: {}, layout: [] };
+    const { blocks, overrides} = this.renderBlocks(example, {});
+    this.state = { program: example, blocks: blocks, overrides: overrides, layout: [] };
+    this.loadProgram = this.loadProgram.bind(this);
+    this.save = this.save.bind(this);
   }
 
   parse = (expr: string) => {
@@ -272,14 +411,11 @@ class App extends React.Component<any, State> {
       if (isNumeric(value.toString())) return { success: true, value };
       else return { success: false, value: 0 };
     } catch (e) {
-      //console.log(e);
       return { success: false, value: 0 };
     }
   };
 
   freeLabels = (blocks: any, row: any, expr: string) => {
-    console.log(expr);
-    console.log(Array.from(blocks));
     return Array.from(
       new Set<any>(
         Array.from(expr.matchAll(/\$(?<label>[\w_]+)/g))
@@ -440,10 +576,27 @@ class App extends React.Component<any, State> {
     }
   };
 
+  loadProgram(calculator: Calculator) {
+    if (calculator === undefined) return;
+    this.setState({ program: calculator.program });
+    this.onValueChange(calculator.program);
+  }
+
+  save(name: string) {
+    if (name == "") return;
+    let calculators = collection(db, "calculators");
+    addDoc(calculators, {
+      title: name,
+      program: this.state.program
+    })
+  }
+
   render = () => {
     let i = 0;
     return (
       <main className="app">
+        <Menu loadProgram={this.loadProgram} save={this.save}></Menu>
+        <div className='hsep'></div>
         <InputField
           program={this.state.program}
           onValueChange={this.onValueChange}
