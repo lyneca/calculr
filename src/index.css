@@ -1,0 +1,216 @@
+body, html {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+#root {
+    height: 100%;
+}
+
+.hidden {
+    display: none !important;
+}
+
+div.block-row {
+    display: flex;
+    -webkit-app-region: no-drag;
+    flex-direction: row;
+    column-gap: 10px;
+}
+
+div.block {
+    flex-grow: 1;
+    flex-shrink: 1;
+    padding: 5px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    background-color: #dddddd;
+    border: 1px solid #999999;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    min-width: 100px;
+}
+
+div.block div.title {
+    font-style: italic;
+    text-transform: uppercase;
+    padding: 5px;
+    font-size: 10px;
+    color: #555555;
+}
+
+.bold {
+    font-weight: bold; 
+}
+
+.token-hidden {
+    color: #888888;
+}
+.token-currency {
+    color: #977b00
+}
+.token-percentage {
+    color: #0071a5
+}
+.token-variable {
+    color: #5a5a5a
+}
+.token-function {
+    color: #753500
+}
+.token-number {
+    color: #00500d
+}
+
+.cm-scroller {
+    overflow-y: scroll;
+    font-family: 'Fira Code', 'Inconsolata', 'Consolas', 'Courier New', Courier, monospace !important;
+}
+.cm-gutters {
+    display: none !important;
+}
+.cm-theme {
+    flex-grow: 1;
+    min-height: 0;
+}
+.cm-focused {
+    border: none !important;
+    outline: none !important;
+}
+main {
+    display: grid;
+    background-color: white;
+    -webkit-app-region: drag;
+    grid-template-columns: 50% 1px 1fr;
+    grid-gap: 10px;
+    padding: 10px;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    border-radius: 10px;
+    border: 1px solid #bbbbbb;
+    box-shadow: 0 0 20px 3px rgba(0, 0, 0, 0.2);
+}
+
+.program-input {
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    -webkit-app-region: no-drag;
+    box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.1) inset;
+    justify-self: stretch;
+    align-self: stretch;
+    -webkit-user-select: text;
+    resize: none;
+    flex-grow: 1;
+    border: 0;
+    background-color: #dddddd;
+    border-radius: 5px;
+    padding: 15px;
+    outline: none !important;
+    font-family: 'Fira Code', 'Inconsolata', 'Consolas', 'Courier New', Courier, monospace;
+    font-size: 15px;
+}
+
+div.display {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    overflow-y: scroll;
+}
+
+div.display::-webkit-scrollbar,
+div.result::-webkit-scrollbar {
+    display: none;
+}
+
+div.result::before {
+    content: "= ";
+    color: #aaaaaa;
+}
+div.result {
+    font-family: 'Fira Code', 'Inconsolata', 'Consolas', 'Courier New', Courier, monospace;
+    overflow-x: scroll;
+    margin: 5px;
+    margin-top: 0;
+    background-color: #eeeeee;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    white-space: nowrap;
+    border: 1px solid #bbbbbb;
+}
+input.number-input {
+    font-family: 'Fira Code', 'Inconsolata', 'Consolas', 'Courier New', Courier, monospace;
+    margin: 5px;
+    /* position: absolute;
+     * right: 5px;
+     * left: 5px;
+     * bottom: 5px;
+     */
+    margin-top: 0;
+    font-size: inherit;
+    background-color: #eeeeee;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    border: 1px dashed #bbbbbb;
+}
+
+div.error {
+    background-color: #ffcfcf;
+    border-color: #973737;
+}
+
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+    display: none;
+}
+
+.currency,
+.percent {
+    font-family: 'Fira Code', 'Inconsolata', 'Consolas', 'Courier New', Courier, monospace;
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    opacity: 0.5;
+}
+
+.prefix, .suffix {
+    opacity: 0.5;
+}
+
+.prefix {
+    margin-right: 3px;
+}
+
+.suffix {
+    margin-left: 3px;
+}
+
+div.sep {
+    background-color: #cccccc;
+}
+div.hsep {
+    background-color: #cccccc;
+    height: 1px;
+    flex-grow: 1;
+}
+
+div.h1, div.h2, div.h3, div.h4, div.h5, div.h6 {
+    flex-grow: 1;
+    flex-shrink: 1;
+    padding: 5px;
+    padding-top: 10px;
+    text-align: center;
+}
+div.h1 { font-size: 4vw; }
+div.h2 { font-size: 3.5vw; }
+div.h3 { font-size: 3vw; }
+div.h4 { font-size: 2.5vw; }
+div.h5 { font-size: 2vw; }
+div.h6 { font-size: 1.5vw; }
