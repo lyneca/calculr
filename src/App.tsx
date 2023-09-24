@@ -207,7 +207,7 @@ class InputBlock extends React.Component<InputBlockProps, InputBlockState> {
  
     render() {
         return (
-            <div className={"block " + (this.state.error ? "error" : "" )}>
+            <div style={{width: ((this.state.override ?? this.state.value).toString().length + 3) + "ch"}} className={"block " + (this.state.error ? "error" : "" )}>
             <div className="title">{this.title()}</div>
             {(this.props.type === InputType.CURRENCY ? <span className="currency">$</span> : "")}
             <input type='numeric' pattern="\d+\.?\d*" className="number-input" value={this.state.override ?? this.state.value} onChange={this.handleChange}></input>
