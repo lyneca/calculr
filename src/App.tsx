@@ -144,8 +144,8 @@ class Menu extends React.Component<MenuProps, MenuState> {
             </option>
           ))}
         </select>
-        <label htmlFor="name">a calculator for</label>
-        <input id="name" name="name" onChange={this.handleChange} value={this.state.name}>
+        <div className="spacer"></div>
+        <input id="name" placeholder='calculator name...' name="name" onChange={this.handleChange} value={this.state.name}>
         </input>
         <button onClick={this.save}>save</button>
       </div>

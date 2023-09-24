@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
-body, html {
+
+body,
+html {
     padding: 0;
     margin: 0;
     height: 100%;
@@ -44,24 +46,29 @@ div.block div.title {
 }
 
 .bold {
-    font-weight: bold; 
+    font-weight: bold;
 }
 
 .token-hidden {
     color: #888888;
 }
+
 .token-currency {
     color: #977b00
 }
+
 .token-percentage {
     color: #0071a5
 }
+
 .token-variable {
     color: #5a5a5a
 }
+
 .token-function {
     color: #753500
 }
+
 .token-number {
     color: #00500d
 }
@@ -70,32 +77,35 @@ div.block div.title {
     overflow-y: scroll;
     font-family: 'Fira Code', 'Inconsolata', 'Consolas', 'Courier New', Courier, monospace !important;
 }
+
 .cm-gutters {
     display: none !important;
 }
+
 .cm-theme {
     flex-grow: 1;
     min-height: 0;
 }
+
 .cm-focused {
     border: none !important;
     outline: none !important;
 }
 
 .menu {
-  grid-column: span 3;
-  display: grid;
-  grid-template-columns: 20% 30% 1fr 200px 70px;
-  gap: 10px;
+    grid-column: span 3;
+    display: grid;
+    grid-template-columns: 20% 30% 1fr 200px 70px;
+    gap: 10px;
 }
 
-.menu > h1 {
+.menu>h1 {
     margin: 0;
     font-family: 'Fira Code', 'Inconsolata', 'Consolas', 'Courier New', Courier, monospace;
     height: 100%;
 }
 
-.menu > button {
+.menu>button {
     font-family: 'Fira Code', 'Inconsolata', 'Consolas', 'Courier New', Courier, monospace;
     font-size: 16px;
     border: 1px solid #999999;
@@ -105,13 +115,14 @@ div.block div.title {
     cursor: pointer;
 }
 
-.menu > label {
+.menu>label {
     font-family: 'Fira Code', 'Inconsolata', 'Consolas', 'Courier New', Courier, monospace;
     align-self: center;
     text-align: right;
 }
 
-.menu > input, .menu > select {
+.menu>input,
+.menu>select {
     font-family: 'Fira Code', 'Inconsolata', 'Consolas', 'Courier New', Courier, monospace;
     padding: 5px;
     box-sizing: border-box;
@@ -176,6 +187,7 @@ div.result::before {
     content: "= ";
     color: #aaaaaa;
 }
+
 div.result {
     font-family: 'Fira Code', 'Inconsolata', 'Consolas', 'Courier New', Courier, monospace;
     overflow-x: scroll;
@@ -189,6 +201,7 @@ div.result {
     white-space: nowrap;
     border: 1px solid #bbbbbb;
 }
+
 input.number-input {
     font-family: 'Fira Code', 'Inconsolata', 'Consolas', 'Courier New', Courier, monospace;
     margin: 5px;
@@ -212,7 +225,8 @@ div.error {
     border-color: #973737;
 }
 
-input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
     display: none;
 }
 
@@ -225,7 +239,8 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
     opacity: 0.5;
 }
 
-.prefix, .suffix {
+.prefix,
+.suffix {
     opacity: 0.5;
 }
 
@@ -240,6 +255,7 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 div.sep {
     background-color: #cccccc;
 }
+
 div.hsep {
     background-color: #cccccc;
     height: 1px;
@@ -247,16 +263,100 @@ div.hsep {
     grid-column: 1/-1;
 }
 
-div.h1, div.h2, div.h3, div.h4, div.h5, div.h6 {
+div.h1,
+div.h2,
+div.h3,
+div.h4,
+div.h5,
+div.h6 {
     flex-grow: 1;
     flex-shrink: 1;
     padding: 5px;
     padding-top: 10px;
     text-align: center;
 }
-div.h1 { font-size: 3vw; }
-div.h2 { font-size: 2.5vw; }
-div.h3 { font-size: 2vw; }
-div.h4 { font-size: 1.5vw; }
-div.h5 { font-size: 1vw; }
-div.h6 { font-size: 0.5vw; }
+
+div.h1 {
+    font-size: 3vw;
+}
+
+div.h2 {
+    font-size: 2.5vw;
+}
+
+div.h3 {
+    font-size: 2vw;
+}
+
+div.h4 {
+    font-size: 1.5vw;
+}
+
+div.h5 {
+    font-size: 1vw;
+}
+
+div.h6 {
+    font-size: 0.5vw;
+}
+
+@media only screen and (max-width: 600px) {
+    main {
+        grid-auto-flow: row;
+        grid-template-columns: 1fr;
+        height: initial;
+    }
+
+    .menu {
+        order: 0;
+        grid-column: initial;
+        grid-template-columns: initial;
+    }
+
+    div.hsep {
+        grid-column: initial;
+    }
+
+    .display {
+        order: 1;
+    }
+
+    .program-input {
+        min-height: auto;
+        order: 3;
+    }
+
+    .sep {
+        height: 1px;
+        width: 100%;
+        order: 2;
+    }
+
+    div.h1 {
+        font-size: 4vh;
+    }
+
+    div.h2 {
+        font-size: 3.5vh;
+    }
+
+    div.h3 {
+        font-size: 3vh;
+    }
+
+    div.h4 {
+        font-size: 2.5vh;
+    }
+
+    div.h5 {
+        font-size: 2vh;
+    }
+
+    div.h6 {
+        font-size: 1.5vh;
+    }
+
+    .spacer {
+        display: none;
+    }
+}
